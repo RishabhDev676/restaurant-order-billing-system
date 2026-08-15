@@ -1,7 +1,9 @@
-# NetBeans
+# NetBeans & IDEs
 /build/
 /dist/
 /nbproject/private/
+.vscode/
+bin/
 
 # Java
 *.class
