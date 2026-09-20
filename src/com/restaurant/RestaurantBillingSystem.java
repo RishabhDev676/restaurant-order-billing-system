@@ -11,7 +11,7 @@ import java.awt.print.PrinterException;
 import java.text.MessageFormat;
 import java.util.List;
 
-public class RestaurantBillingSystem extends JFrame {
+public class RestaurantBillingSystem extends javax.swing.JFrame {
 
     private final MenuManager menuManager;
     private final BillingManager billingManager;
@@ -59,7 +59,7 @@ public class RestaurantBillingSystem extends JFrame {
         lblGrandTotal = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Foodie's Paradise - Order & Billing System");
+        setTitle("Serve & Settle - Order & Billing System");
         setMinimumSize(new java.awt.Dimension(880, 640));
         setPreferredSize(new java.awt.Dimension(980, 720));
 
@@ -71,7 +71,7 @@ public class RestaurantBillingSystem extends JFrame {
 
         lblTitle.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblTitle.setForeground(new java.awt.Color(255, 255, 255));
-        lblTitle.setText("FOODIE'S PARADISE");
+        lblTitle.setText("SERVE & SETTLE");
         headerTextPanel.add(lblTitle);
 
         lblSubTitle.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
@@ -157,7 +157,7 @@ public class RestaurantBillingSystem extends JFrame {
 
         lblFooterBrand.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         lblFooterBrand.setForeground(new java.awt.Color(226, 232, 240));
-        lblFooterBrand.setText("Foodie's Paradise Billing System");
+        lblFooterBrand.setText("Serve & Settle Billing System");
         footerPanel.add(lblFooterBrand, java.awt.BorderLayout.WEST);
 
         lblGrandTotal.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
@@ -174,7 +174,7 @@ public class RestaurantBillingSystem extends JFrame {
     private JLabel lblTaxNotice;
 
     private void customInit() {
-        setTitle("Foodie's Paradise - Order & Billing System");
+        setTitle("Serve & Settle - Order & Billing System");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setSize(1100, 750);
         setMinimumSize(new Dimension(900, 650));
@@ -185,9 +185,29 @@ public class RestaurantBillingSystem extends JFrame {
         Color labelColor = new Color(51, 65, 85);
         Color borderLight = new Color(226, 232, 240);
 
-        Container contentPane = getContentPane();
-        contentPane.setLayout(new BorderLayout(0, 0));
-        contentPane.setBackground(bgLight);
+        JPanel contentPane = new JPanel(new BorderLayout(0, 0)) {
+            private Image bgImage;
+            {
+                try {
+                    java.net.URL imgURL = getClass().getResource("/com/restaurant/bg.png");
+                    if (imgURL != null) {
+                        bgImage = new ImageIcon(imgURL).getImage();
+                    }
+                } catch (Exception e) {}
+            }
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                if (bgImage != null) {
+                    Graphics2D g2 = (Graphics2D) g;
+                    g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+                    g2.drawImage(bgImage, 0, 0, getWidth(), getHeight(), this);
+                    g2.setColor(new Color(0, 0, 0, 110));
+                    g2.fillRect(0, 0, getWidth(), getHeight());
+                }
+            }
+        };
+        setContentPane(contentPane);
 
         // Outer Content Container with Padding
         JPanel centerWrapper = new JPanel(new BorderLayout(15, 15));
@@ -203,6 +223,11 @@ public class RestaurantBillingSystem extends JFrame {
 
         // Header Panel Padding & Logo Setup
         headerPanel.setBorder(new EmptyBorder(15, 25, 15, 25));
+        
+        lblTitle.setFont(new Font("Segoe UI Black", Font.BOLD, 36));
+        lblTitle.setText("S E R V E   &   S E T T L E");
+        lblSubTitle.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 16));
+        
         try {
             java.net.URL imgURL = getClass().getResource("/com/restaurant/logo.png");
             if (imgURL == null) {
@@ -210,14 +235,34 @@ public class RestaurantBillingSystem extends JFrame {
             }
             if (imgURL != null) {
                 ImageIcon rawIcon = new ImageIcon(imgURL);
-                Image scaledImg = rawIcon.getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH);
+                Image scaledImg = rawIcon.getImage().getScaledInstance(130, 130, Image.SCALE_SMOOTH);
                 lblLogo.setIcon(new ImageIcon(scaledImg));
             }
         } catch (Exception e) {
             System.out.println("Logo load info: " + e.getMessage());
         }
+        
+        // Highlight the logo by wrapping it in a bright card
+        headerPanel.remove(lblLogo);
+        lblLogo.setBorder(null);
+        
+        CardPanel logoHighlight = new CardPanel();
+        logoHighlight.setBackground(new Color(255, 255, 255, 250)); // Bright white highlight background
+        logoHighlight.setLayout(new BorderLayout());
+        logoHighlight.setBorder(new EmptyBorder(10, 10, 10, 10)); // Padding inside the highlight box
+        logoHighlight.add(lblLogo, BorderLayout.CENTER);
+        
+        JPanel logoContainer = new JPanel(new BorderLayout());
+        logoContainer.setOpaque(false);
+        logoContainer.setBorder(new EmptyBorder(0, 0, 0, 30)); // Gap between logo box and title text
+        logoContainer.add(logoHighlight, BorderLayout.CENTER);
+        
+        headerPanel.add(logoContainer, BorderLayout.WEST);
 
         // Order Panel Border & Spacing
+        orderPanel.setBackground(new Color(255, 255, 255, 230));
+        receiptPanel.setBackground(new Color(255, 255, 255, 230));
+        
         orderPanel.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createTitledBorder(
                         BorderFactory.createLineBorder(borderLight, 1, true),
@@ -249,8 +294,9 @@ public class RestaurantBillingSystem extends JFrame {
         editor.getTextField().setForeground(textColor);
 
         // Order Info Box at the bottom to balance receipt panel height
-        JPanel infoBox = new JPanel(new GridLayout(2, 1, 0, 4));
-        infoBox.setBackground(new Color(248, 250, 252));
+        CardPanel infoBox = new CardPanel();
+        infoBox.setLayout(new GridLayout(2, 1, 0, 4));
+        infoBox.setBackground(new Color(248, 250, 252, 200));
         infoBox.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(226, 232, 240), 1, true),
                 new EmptyBorder(10, 14, 10, 14)
@@ -398,7 +444,7 @@ public class RestaurantBillingSystem extends JFrame {
 
         try {
             boolean complete = txtReceipt.print(
-                    new MessageFormat("Foodie's Paradise - Receipt"),
+                    new MessageFormat("Serve & Settle - Receipt"),
                     new MessageFormat("Page {0}"),
                     true,
                     null,

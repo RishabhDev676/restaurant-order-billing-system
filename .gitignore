@@ -12,3 +12,5 @@ bin/
 # OS files
 .DS_Store
 Thumbs.db
+/ajavaProject/nbproject/private/
+/JavaApplication2/nbproject/private/

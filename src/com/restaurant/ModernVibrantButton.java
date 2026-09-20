@@ -16,6 +16,10 @@ public class ModernVibrantButton extends JButton {
     private boolean isHovered = false;
     private boolean isPressed = false;
 
+    public ModernVibrantButton() {
+        this("Button", new Color(59, 130, 246));
+    }
+
     public ModernVibrantButton(String text, Color baseColor) {
         super(text);
         this.baseColor = baseColor;

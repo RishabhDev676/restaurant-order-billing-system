@@ -19,7 +19,7 @@ public class ReceiptGenerator {
 
         StringBuilder sb = new StringBuilder();
         sb.append("=================================================\n");
-        sb.append("              FOODIE'S PARADISE                  \n");
+        sb.append("               SERVE & SETTLE                  \n");
         sb.append("       Fine Dining & Quick Order Service         \n");
         sb.append("             GSTIN: 27AAAAA0000A1Z5              \n");
         sb.append("=================================================\n");

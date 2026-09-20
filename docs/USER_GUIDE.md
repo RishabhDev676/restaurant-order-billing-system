@@ -1,6 +1,6 @@
-# 📖 Foodie's Paradise - User & Technical Guide
-
-Welcome to the **Foodie's Paradise Restaurant Order and Billing System** documentation.
+# 📖 Serve & Settle - User & Technical Guide
+ 
+Welcome to the **Serve & Settle Restaurant Order and Billing System** documentation.
 
 ---
 

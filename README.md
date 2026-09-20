@@ -1,4 +1,4 @@
-# 🍽️ Foodie's Paradise - Restaurant Order and Billing System
+# 🍽️ Serve & Settle - Restaurant Order and Billing System
 
 A modern, high-performance desktop application developed in **Java Swing** for managing restaurant menu items, order placement, live order summaries, and itemized thermal receipt generation.
 
@@ -53,6 +53,8 @@ RestaurantBillingSystem/
 │           ├── Main.java                      # Main application entry point
 │           ├── RestaurantBillingSystem.java   # JFrame Window & UI Logic
 │           ├── RestaurantBillingSystem.form   # NetBeans Matisse Form Metadata
+│           ├── bg.png                         # Application Background Image
+│           ├── logo.png                       # Application Logo Image
 │           ├── GradientHeaderPanel.java       # Custom Gradient Banner Panel
 │           ├── CardPanel.java                 # Custom Rounded Card Container
 │           ├── ModernVibrantButton.java       # Custom Animated Button
